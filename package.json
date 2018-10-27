@@ -1,28 +1,28 @@
 {
-  "name": "w05-mvp-pure",
-  "version": "1.0.0",
+  "name": "together-todo",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "dependencies": {
     "axios": "^0.17.1",
-    "body-parser": "^1.18.2",
-    "express": "^4.16.2",
-    "moment": "^2.20.1",
-    "mongoose": "^5.0.6",
-    "morgan": "^1.9.0",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "request": "^2.83.0",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "moment": "^2.22.2",
+    "mongoose": "^5.3.7",
+    "morgan": "^1.9.1",
+    "react": "^16.6.0",
+    "react-dom": "^16.6.0",
+    "request": "^2.88.0",
     "request-promise": "^4.2.2"
   },
   "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
-    "babel-preset-env": "^1.6.1",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
-    "nodemon": "^1.15.0",
-    "webpack": "^3.11.0",
-    "webpack-dev-server": "^2.11.1"
+    "nodemon": "^1.18.5",
+    "webpack": "^3.12.0",
+    "webpack-dev-server": "^2.11.3"
   },
   "scripts": {
     "start-client": "webpack -d --watch",
@@ -34,10 +34,10 @@
     "url": "git+https://github.com/pazano/hrla20-mvp.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Paul Valenzano",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/pazano/hrla20-mvp/issues"
+    "url": "https://github.com/pazano/together-todo/issues"
   },
-  "homepage": "https://github.com/pazano/hrla20-mvp#readme"
+  "homepage": "https://github.com/pazano/together-todo#readme"
 }
