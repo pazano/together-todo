@@ -5,9 +5,14 @@ const User = require('./user');
 const Goal = require('./goal');
 
 const TodoSchema = new Schema({
-  user: {
+  relationship: {
     type: Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'Relationship'
+  },
+  assignedTo: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    default: null
   },
   goal: {
     type: Schema.Types.ObjectId,
@@ -17,6 +22,10 @@ const TodoSchema = new Schema({
   complete: {
     type: Boolean,
     default: false
+  },
+  createdBy: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
   },
   created: {
     type: Date,
