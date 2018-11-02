@@ -1,6 +1,12 @@
 const router = require('express').Router();
 const ctrl = require('../controllers');
 
+// Relationships
+router.get('/relationships', ctrl.relationships.get);
+router.post('/relationships', ctrl.relationships.create);
+router.put('/relationships', ctrl.relationships.update);
+router.delete('/relationships', ctrl.relationships.delete);
+
 // Goals
 router.get('/goals', ctrl.goals.get);
 router.post('/goals', ctrl.goals.create);

@@ -1,3 +1,5 @@
+
+// Do not use this if the model has pre-save hooks (upsert doesn't trigger)
 const findOrCreate = (model, lookup, values) => {
   return new Promise( (resolve, reject) => {
     return model

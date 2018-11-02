@@ -20,4 +20,4 @@ const RelationshipSchema = new Schema({
 
 const Relationship = db.model('Relationship', RelationshipSchema);
 
-module.exports = Goal;
+module.exports = Relationship;

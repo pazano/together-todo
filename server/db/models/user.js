@@ -1,9 +1,8 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 const db = require('../index.js');
 const bcrypt = require('bcrypt');
 
-const UserSchema = new Schema({
+const UserSchema = mongoose.Schema({
   login: {
     type: String,
     unique: true
@@ -14,14 +13,14 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now
   }
-})
+});
 
-UserSchema.pre('save', (next) => {
+UserSchema.pre('save', function EncryptUserPasswordOnSave(next) {
   const user = this;
   if (!user.isModified('password')) {
     return next();
   }
-  bcrypt
+  return bcrypt
     .genSalt(10)
     .then((salt) => {
       user.salt = salt;
