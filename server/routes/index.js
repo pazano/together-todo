@@ -21,10 +21,12 @@ router.delete('/todos', ctrl.todos.delete);
 
 // Users
 router.get('/users', ctrl.users.get);
-router.post('/users', ctrl.users.create);
 router.put('/users', ctrl.users.update);
 router.delete('/users', ctrl.users.delete);
 
 // Auth
+router.post('/auth/register', ctrl.auth.register);
+router.post('/auth/login', ctrl.auth.login);
+router.post('/auth/logout', ctrl.auth.logout);
 
 module.exports = router;

@@ -3,7 +3,7 @@ const db = require('../index.js');
 const bcrypt = require('bcrypt');
 
 const UserSchema = mongoose.Schema({
-  login: {
+  usernname: {
     type: String,
     unique: true
   },
@@ -20,7 +20,7 @@ UserSchema.pre('save', function EncryptUserPasswordOnSave(next) {
   if (!user.isModified('password')) {
     return next();
   }
-  return bcrypt
+  bcrypt
     .genSalt(10)
     .then((salt) => {
       user.salt = salt;
