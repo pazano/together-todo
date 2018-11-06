@@ -5,7 +5,7 @@ const crypto = require('crypto');
 
 // TODO - Move to env config
 const tokenSecret = 'aa69bd0db71d34f400d981b89aeff7f2';
-const tokenExpiration = 7 * 60 * 60;
+const tokenExpiration = 7 * 24 * 60 * 60;
 
 const register = (username, password) =>
   new Promise((resolve, reject) => {

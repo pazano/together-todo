@@ -3,12 +3,8 @@ const auth = require('../db/utils/auth');
 module.exports = {
   register: (req, res) => {
     let { username, password } = req.body;
-    console.log('registration request received')
-    console.log(`username:  ${username} && password:  ${password}`);
     auth.register(username, password)
       .then(result => {
-        console.log('result')
-        console.log(result)
         res.status(201).send(result)
       })
       .catch(err => res.status(400).send(err))

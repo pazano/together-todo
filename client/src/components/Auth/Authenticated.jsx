@@ -6,13 +6,16 @@ class Authenticated extends Component {
   _checkSession() {
     const session = auth.retrieveSession();
     const now = new Date();
-    const isValid = session.expiry && session.expiry > now.getTime() ? true : false;
+    console.log(session.expiry);
+    console.log(now.getTime())
+    const isValid = session.expiry && (session.expiry > now.getTime()) ? true : false;
     console.log(`session ${isValid ? 'is' : 'is not'} valid`)
     return isValid;
   }
 
   _validateSession() {
     if (!this._checkSession()) {
+      localStorage.clear();
       this.props.history.push('/login');
     }
   }

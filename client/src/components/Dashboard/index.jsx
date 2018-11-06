@@ -31,22 +31,22 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
-    utils.api.users.getAll()
-      .then(users => {
-        this.setState({
-          allUsers: users
-        });
-        return utils.api.initialize(users[this.state.currentUser]._id); //MOVE TO APP INITIALIZE FN
-      })
-      .then(results => {
-        let [initGoals, initTodos] = results;
-        console.log(`User has ${initGoals.length} goals and ${initTodos.length} todos`);
-        this.setState({
-          goals: initGoals,
-          todos: initTodos
-        })
-      })
-      .catch(err => console.log(err));
+    // utils.api.users.getAll()
+    //   .then(users => {
+    //     this.setState({
+    //       allUsers: users
+    //     });
+    //     return utils.api.initialize(users[this.state.currentUser]._id); //MOVE TO APP INITIALIZE FN
+    //   })
+    //   .then(results => {
+    //     let [initGoals, initTodos] = results;
+    //     console.log(`User has ${initGoals.length} goals and ${initTodos.length} todos`);
+    //     this.setState({
+    //       goals: initGoals,
+    //       todos: initTodos
+    //     })
+    //   })
+    //   .catch(err => console.log(err));
   }
 
   toggleActiveGoal(index) {
@@ -125,18 +125,17 @@ class Dashboard extends Component {
       <div>
         <div className="header">
           <h1>Momentum Todos</h1>
-          <UserSelect users={this.state.allUsers} currentUser={this.state.currentUser} selectUser={this.selectUser} />
         </div>
         <div className="container">
           <h2>Goals</h2>
-          <GoalList goals={this.state.goals} setActive={this.toggleActiveGoal} activeGoal={this.state.activeGoal} />
-          <GoalForm submitGoal={this.submitGoal} />
+          {/* <GoalList goals={this.state.goals} setActive={this.toggleActiveGoal} activeGoal={this.state.activeGoal} />
+          <GoalForm submitGoal={this.submitGoal} /> */}
           <h2>Todos</h2>
-          <TodoForm goals={this.state.goals} submitTodo={this.submitTodo} />
+          {/* <TodoForm goals={this.state.goals} submitTodo={this.submitTodo} />
           <TodoList
             todos={this.state.todos}
             activeGoalId={this.state.activeGoal !== null ? this.state.goals[this.state.activeGoal]._id : null}
-            toggle={this.toggleTodo}  />
+            toggle={this.toggleTodo}  /> */}
         </div>
       </div>
     )
