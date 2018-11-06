@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Component } from 'react';
 
-const BASE_URL = 'localhost:8080';
+const BASE_URL = 'http://localhost:8080';
 
 class Login extends Component {
   constructor(props) {
@@ -13,6 +13,10 @@ class Login extends Component {
       'error': false,
       'message': ''
     };
+    this._handleInputChange = this._handleInputChange.bind(this);
+    this._setError = this._setError.bind(this);
+    this._clearError = this._clearError.bind(this);
+    this._submitCredentials = this._submitCredentials.bind(this);
   }
 
   _handleInputChange (e) {
@@ -25,6 +29,7 @@ class Login extends Component {
   _saveSession (data) {
     localStorage.setItem('user', { '_id': data.user._id, 'username': data.user.username });
     localStorage.setItem('token', data.token);
+    localStorage.setItem('expiry', data.expiry);
   }
 
   _setError (message) {
@@ -43,15 +48,19 @@ class Login extends Component {
 
   async _submitCredentials (e) {
     e.preventDefault();
-    if ( this.state.username && this.state.password ) {
-      const { username, password } = this.state;
-      const response = await axios.post(`${BASE_URL}/api/auth/login`, { username, password });
-      if ( response.success ) {
-        this._saveSession(response);
-        this.props.history.push('/dashboard');
-      } else {
-        this._setError(response.message);
+    try {
+      if ( this.state.username && this.state.password ) {
+        const { username, password } = this.state;
+        const { data } = await axios.post(`${BASE_URL}/api/auth/login`, { username, password });
+        if ( data.success ) {
+          this._saveSession(data);
+          this.props.history.push('/dashboard');
+        } else {
+          this._setError(data.message);
+        }
       }
+    } catch(e) {
+      console.log('error in credentials submission.')
     }
   }
 

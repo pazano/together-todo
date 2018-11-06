@@ -3,7 +3,7 @@ const db = require('../index.js');
 const bcrypt = require('bcrypt');
 
 const UserSchema = mongoose.Schema({
-  usernname: {
+  username: {
     type: String,
     unique: true
   },

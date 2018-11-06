@@ -2,6 +2,7 @@ import React from 'react';
 import { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 
+
 import Login from './Auth/Login/index.jsx';
 import Dashboard from './Dashboard/index.jsx';
 
@@ -19,11 +20,11 @@ class App extends Component {
       <div>
         <Switch>
           <Route
-            path="/login" component={Login} />
+            path="/login/" component={Login} />
           <Route
             name="home"
-            path="*"
-            component={Dashboard}
+            exact path="/"
+            component={props => <Authenticated component={Dashboard} {...props} />}
           />
         </Switch>
       </div>

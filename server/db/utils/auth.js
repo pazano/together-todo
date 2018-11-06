@@ -9,10 +9,11 @@ const tokenExpiration = 7 * 60 * 60;
 
 const register = (username, password) =>
   new Promise((resolve, reject) => {
-    User.findOne({ username })
+    User
+      .findOne({ username })
       .exec()
       .then(foundUser => {
-        if (foundUser != null) {
+        if (foundUser !== null) {
           return false; // user exists
         }
         let createUser = new User({ username, password });
@@ -85,5 +86,6 @@ module.exports = {
   authenticate,
   issueToken,
   verifyToken,
-  refreshToken
+  refreshToken,
+  tokenExpiration
 }

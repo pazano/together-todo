@@ -3,8 +3,12 @@ const auth = require('../db/utils/auth');
 module.exports = {
   register: (req, res) => {
     let { username, password } = req.body;
+    console.log('registration request received')
+    console.log(`username:  ${username} && password:  ${password}`);
     auth.register(username, password)
       .then(result => {
+        console.log('result')
+        console.log(result)
         res.status(201).send(result)
       })
       .catch(err => res.status(400).send(err))
@@ -27,12 +31,15 @@ module.exports = {
         userValues._id = result.user._id;
         userValues.username = result.user.username;
         const sessionToken = auth.issueToken(userValues);
+        let now = new Date();
+        let expiry = now.getTime() + auth.tokenExpiration;
         res
           .status(200)
           .send({
             success: true,
             user: userValues,
             token: sessionToken,
+            expiry,
             message: result.message
           })
       })

@@ -13,7 +13,7 @@
     "jsonwebtoken-refresh": "^5.7.0",
     "jwt-express": "^1.1.0",
     "moment": "^2.22.2",
-    "mongoose": "^5.3.7",
+    "mongoose": "^5.3.9",
     "morgan": "^1.9.1",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
@@ -24,10 +24,12 @@
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
-    "nodemon": "^1.18.5",
-    "webpack": "^3.12.0",
+    "nodemon": "^1.18.6",
+    "webpack": "^4.25.1",
+    "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^2.11.3"
   },
   "scripts": {
