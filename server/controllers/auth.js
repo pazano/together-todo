@@ -26,7 +26,25 @@ module.exports = {
         const userValues = {};
         userValues._id = result.user._id;
         userValues.username = result.user.username;
-        //here
+        const sessionToken = auth.issueToken(userValues);
+        res
+          .status(200)
+          .send({
+            success: true,
+            user: userValues,
+            token: sessionToken,
+            message: result.message
+          })
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .send({
+            success: false,
+            user: null,
+            token: null,
+            message: 'Authentication error, please try again'
+          })
       })
   },
   logout: (req, res) => {
