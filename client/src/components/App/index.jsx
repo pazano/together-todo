@@ -9,17 +9,17 @@ import TodoForm from './TodoForm.jsx';
 
 import utils from '../../utils';
 
-class Dashboard extends Component {
+class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      allUsers: [],
-      currentUser: 0,
+      user: 0,
+      relationship: null,
       activeGoal: null,
       goals: [],
-      todos: []
+      todos: [],
+      visibleTodos: []
     }
-    this.selectUser = this.selectUser.bind(this);
     this.toggleActiveGoal = this.toggleActiveGoal.bind(this);
     this.submitGoal = this.submitGoal.bind(this);
 
@@ -31,6 +31,9 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
+    this.setState({
+      user: localStorage.getItem('user')
+    }, () => console.log(`Init for user ${this.state.user.username}`))
     // utils.api.users.getAll()
     //   .then(users => {
     //     this.setState({
@@ -112,14 +115,6 @@ class Dashboard extends Component {
       .catch(err => console.log(err));
   }
 
-  selectUser(e) {
-    this.setState({
-      currentUser: e.target.value
-    }, () => console.log(`Updated current user to ${this.state.allUsers[this.state.currentUser].login}`))
-
-    // TODO: re-initialize the interface
-  }
-
   render() {
     return(
       <div>
@@ -127,6 +122,10 @@ class Dashboard extends Component {
           <h1>Momentum Todos</h1>
         </div>
         <div className="container">
+          <h2>Pairings</h2>
+            <ul>
+              { }
+            </ul>
           <h2>Goals</h2>
           {/* <GoalList goals={this.state.goals} setActive={this.toggleActiveGoal} activeGoal={this.state.activeGoal} />
           <GoalForm submitGoal={this.submitGoal} /> */}
@@ -142,4 +141,4 @@ class Dashboard extends Component {
   }
 }
 
-export default Dashboard;
+export default App;

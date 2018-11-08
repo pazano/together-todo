@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const User = require('./user');
+const Relationship = require('./relationship');
 const db = require('../index');
 
 const GoalSchema = new Schema({
-  user: {
+  relationship: {
     type: Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'Relationship'
   },
   name: String,
   color: String,

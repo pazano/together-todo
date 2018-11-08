@@ -4,8 +4,17 @@ const utils = require('../db/utils');
 
 module.exports = {
   get: (req, res) => {
-    Relationship.find()
-      .then(result => res.status(200).send(result))
+    let { user } = req.query;
+    Relationship.find({$or: [{ userOne: user }, { userTwo: user }]})
+      .populate('userOne')
+      .populate('userTwo')
+      .then(result => {
+        if (result) {
+          res.status(200).send(result)
+        } else {
+          res.status(200).send(false);
+        }
+      })
       .catch(err => res.status(404).send(err))
   },
   create: (req, res) => {

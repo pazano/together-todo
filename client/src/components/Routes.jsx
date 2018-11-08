@@ -4,12 +4,12 @@ import { Route, Switch } from 'react-router-dom';
 
 
 import Login from './Auth/Login/index.jsx';
-import Dashboard from './Dashboard/index.jsx';
+import App from './App/index.jsx';
 
 import Authenticated from './Auth/Authenticated.jsx';
 
 
-class App extends Component {
+class Routes extends Component {
   constructor(props) {
     super(props);
     this.state = { }
@@ -21,10 +21,10 @@ class App extends Component {
         <Switch>
           <Route
             path="/login/" component={Login} />
-          <Route
+          <Authenticated
             name="home"
             exact path="/"
-            component={props => <Authenticated component={Dashboard} {...props} />}
+            component={App}
           />
         </Switch>
       </div>
@@ -32,4 +32,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Routes;

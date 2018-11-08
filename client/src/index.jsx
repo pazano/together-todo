@@ -2,10 +2,10 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-import App from './components/App.jsx';
+import Routes from './components/Routes.jsx';
 
 ReactDOM.render(
   <BrowserRouter>
-    <App />
+    <Routes />
   </BrowserRouter>,
   document.getElementById('app'));

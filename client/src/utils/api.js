@@ -14,10 +14,27 @@ api.users = {
   }
 };
 
+api.relationships = {
+  userRelationships: (id) => {
+    return new Promise((resolve, reject) => {
+      axios.get(`${API_BASE}/relationships`, { params: { user: id } })
+        .then(foundGoals => resolve(foundGoals.data))
+        .catch(err => reject(err));
+    })
+  },
+  createRelationship: (userOne, userTwo) => {
+    return new Promise((resolve, reject) => {
+      axios.post(`${API_BASE}/relationships`, { userOne, userTwo })
+        .then(relationship => resolve(relationship.data))
+        .catch(err => reject(err));
+    })
+  }
+};
+
 api.goals = {
-  userGoals: (id) => {
+  userGoals: (user, relationship) => {
     return new Promise( (resolve, reject) => {
-      axios.get(`${API_BASE}/goals`, { params: {user: id}})
+      axios.get(`${API_BASE}/goals`, { params: {user, relationship} })
         .then(foundGoals => resolve(foundGoals.data))
         .catch(err => reject(err));
     })
@@ -59,6 +76,7 @@ api.initialize = (id) => {
   console.log(`init for ${id}`);
   return new Promise( (resolve, reject) => {
     return Promise.all([
+      api.relationships.userRelationships(id),
       api.goals.userGoals(id),
       api.todos.userTodos(id)
     ])

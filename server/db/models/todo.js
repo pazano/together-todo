@@ -20,10 +20,6 @@ const TodoSchema = new Schema({
     ref: 'User',
     default: null
   },
-  complete: {
-    type: Boolean,
-    default: false
-  },
   createdBy: {
     type: Schema.Types.ObjectId,
     ref: 'User'
@@ -36,6 +32,10 @@ const TodoSchema = new Schema({
   created: {
     type: Date,
     default: Date.now
+  },
+  complete: {
+    type: Boolean,
+    default: false
   },
   completionDate: {
     type: Date,

@@ -42,21 +42,22 @@ const updateGoalScore = (goalId) => {
   })
 }
 
-const updateUserGoalScores = (userId) => {
+const updateRelationshipGoalScores = (relationship) => {
   return new Promise( (resolve, reject) => {
-    Goal
-      .find({user: userId})
-      .exec()
-      .then(foundGoals => {
-        let promises = foundGoals.map(goal => updateGoalScore(goal._id))
-        return Promise.all(promises)
-      })
-      .then(updatedGoals => resolve(updatedGoals))
-      .catch(err => reject(err));
-  })
+      Goal
+        .find({ relationship })
+        .exec()
+        .then(foundGoals => {
+          let promises = foundGoals.map(goal => updateGoalScore(goal._id))
+          return Promise.all(promises)
+        })
+        .then(updatedGoals => resolve(updatedGoals))
+        .catch(err => reject(err));
+    }
+  )
 }
 
 module.exports = {
-  updateGoalScore: updateGoalScore,
-  updateUserGoalScores: updateUserGoalScores
+  updateGoalScore,
+  updateRelationshipGoalScores
 }

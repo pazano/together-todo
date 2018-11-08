@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 
 const BASE_URL = 'http://localhost:8080';
 
@@ -54,7 +55,7 @@ class Login extends Component {
         const { data } = await axios.post(`${BASE_URL}/api/auth/login`, { username, password });
         if ( data.success ) {
           this._saveSession(data);
-          this.props.history.push('/dashboard');
+          <Redirect to={{ pathname: "/", state: { from: this.props.location } }} />
         } else {
           this._setError(data.message);
         }

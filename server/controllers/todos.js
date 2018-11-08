@@ -6,9 +6,9 @@ const utils = require('../db/utils');
 module.exports = {
   get: (req, res) => {
     // TODO:  expand this to search with whatever params are provided in the query
-    let {user} = req.query;
+    let { relationship } = req.query;
     Todo
-      .find({user: user})
+      .find({ relationship })
       .sort('complete -created')
       .exec()
       .then(foundTodos => Goal.populate(foundTodos, {path: 'goal'}))
@@ -16,13 +16,15 @@ module.exports = {
       .catch(err => res.status(400).send(err));
   },
   create: (req, res) => {
-    let {user, goal, description} = req.body;
+    let {relationship, user, goal, description} = req.body;
+    const query = {
+      relationship,
+      goal,
+      description
+    }
+    if (user) query.assignedTo = user;
     Todo
-      .create({
-        user: user,
-        goal: goal,
-        description: description
-      })
+      .create(query)
       .then(newTodo => Goal.populate(newTodo, {path: 'goal'}))
       .then(todoWithGoal => res.status(200).send(todoWithGoal))
       .catch(err => res.status(400).send(err));
