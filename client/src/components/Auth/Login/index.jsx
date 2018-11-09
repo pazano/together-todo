@@ -28,7 +28,11 @@ class Login extends Component {
   }
 
   _saveSession (data) {
-    localStorage.setItem('user', { '_id': data.user._id, 'username': data.user.username });
+    const user = {
+      '_id': data.user._id,
+      'username': data.user.username
+    }
+    localStorage.setItem('user', JSON.stringify(user));
     localStorage.setItem('token', data.token);
     localStorage.setItem('expiry', data.expiry);
   }

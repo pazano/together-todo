@@ -18,7 +18,7 @@ api.relationships = {
   userRelationships: (id) => {
     return new Promise((resolve, reject) => {
       axios.get(`${API_BASE}/relationships`, { params: { user: id } })
-        .then(foundGoals => resolve(foundGoals.data))
+        .then(foundRelationships => resolve(foundRelationships.data))
         .catch(err => reject(err));
     })
   },
@@ -39,6 +39,13 @@ api.goals = {
         .catch(err => reject(err));
     })
   },
+  relationshipGoals: (relationship) => {
+    return new Promise( (resolve, reject) => {
+      axios.get(`${API_BASE}/goals`, { params: { relationship } })
+        .then(foundGoals => resolve(foundGoals.data))
+        .catch(err => reject(err));
+    })
+  },
   createGoal: (user, name, color) => {
     return new Promise( (resolve, reject) => {
       axios.post(`${API_BASE}/goals`, {user: user, name: name, color: color})
@@ -49,9 +56,16 @@ api.goals = {
 };
 
 api.todos = {
-  userTodos: (id) => {
+  userTodos: (user) => {
     return new Promise( (resolve, reject) => {
-      axios.get(`${API_BASE}/todos`, { params: {user: id}})
+      axios.get(`${API_BASE}/todos`, { params: { user }})
+        .then(foundTodos => resolve(foundTodos.data))
+        .catch(err => reject(err));
+    })
+  },
+  relationshipTodos: (relationship) => {
+    return new Promise( (resolve, reject) => {
+      axios.get(`${API_BASE}/todos`, { params: { relationship }})
         .then(foundTodos => resolve(foundTodos.data))
         .catch(err => reject(err));
     })
@@ -72,17 +86,24 @@ api.todos = {
   }
 };
 
-api.initialize = (id) => {
-  console.log(`init for ${id}`);
+api.initialize = (user) => {
+  console.log(`init for ${user}`);
   return new Promise( (resolve, reject) => {
-    return Promise.all([
-      api.relationships.userRelationships(id),
-      api.goals.userGoals(id),
-      api.todos.userTodos(id)
-    ])
+    const store = {};
+    // currently assuming only one relationship record
+    api.relationships.userRelationships(user)
+      .then(relationship => {
+        store.relationship = relationship;
+        return Promise.all([
+          api.goals.relationshipGoals(relationship._id),
+          api.todos.relationshipTodos(relationship._id)
+        ])
+      })
     .then(results => {
       console.log(results);
-      return resolve(results)
+      store.goals = results[0];
+      store.todos = results[1];
+      return resolve(store)
     })
     .catch(err => reject(err));
   })

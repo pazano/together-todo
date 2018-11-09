@@ -5,7 +5,8 @@ const utils = require('../db/utils');
 module.exports = {
   get: (req, res) => {
     let { user } = req.query;
-    Relationship.find({$or: [{ userOne: user }, { userTwo: user }]})
+    // TBD whether or not this should be a 1 relationship app
+    Relationship.findOne({$or: [{ userOne: user }, { userTwo: user }]})
       .populate('userOne')
       .populate('userTwo')
       .then(result => {

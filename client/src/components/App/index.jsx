@@ -14,12 +14,15 @@ class App extends Component {
     super(props);
     this.state = {
       user: 0,
-      relationship: null,
-      activeGoal: null,
+      partner: null,
       goals: [],
+      activeGoal: null,
       todos: [],
-      visibleTodos: []
+      visibleTodos: [],
+      prepped: false
     }
+    this.initialize = this.initialize.bind(this);
+
     this.toggleActiveGoal = this.toggleActiveGoal.bind(this);
     this.submitGoal = this.submitGoal.bind(this);
 
@@ -32,24 +35,30 @@ class App extends Component {
 
   componentDidMount() {
     this.setState({
-      user: localStorage.getItem('user')
-    }, () => console.log(`Init for user ${this.state.user.username}`))
-    // utils.api.users.getAll()
-    //   .then(users => {
-    //     this.setState({
-    //       allUsers: users
-    //     });
-    //     return utils.api.initialize(users[this.state.currentUser]._id); //MOVE TO APP INITIALIZE FN
-    //   })
-    //   .then(results => {
-    //     let [initGoals, initTodos] = results;
-    //     console.log(`User has ${initGoals.length} goals and ${initTodos.length} todos`);
-    //     this.setState({
-    //       goals: initGoals,
-    //       todos: initTodos
-    //     })
-    //   })
-    //   .catch(err => console.log(err));
+      user: JSON.parse(localStorage.getItem('user'))
+    }, () => this.initialize())
+  }
+
+  async initialize() {
+    if (this.state.user) {
+      try {
+        let data = await utils.api.initialize(this.state.user._id);
+        console.log('--- init data ---')
+        console.log(data);
+        let partner = data.relationship.userOne._id === this.state.user._id ?
+          { '_id': data.relationship.userTwo._id, 'username': data.relationship.userTwo.username }
+          :
+          { '_id': data.relationship.userOne._id, 'username': data.relationship.userOne.username };
+        this.setState({
+          partner,
+          goals: data.goals,
+          todos: data.todos,
+          prepped: true
+        }, () => 'made it!');
+      } catch (e) {
+        console.log('an error in init')
+      }
+    }
   }
 
   toggleActiveGoal(index) {
@@ -116,28 +125,28 @@ class App extends Component {
   }
 
   render() {
-    return(
-      <div>
-        <div className="header">
-          <h1>Momentum Todos</h1>
+    if (this.state.prepped) {
+      return(
+        <div>
+          <div className="header">
+            <h1>Together with {this.state.partner.username}</h1>
+          </div>
+          <div className="container">
+            <h2>Goals</h2>
+            {/* <GoalList goals={this.state.goals} setActive={this.toggleActiveGoal} activeGoal={this.state.activeGoal} />
+            <GoalForm submitGoal={this.submitGoal} /> */}
+            <h2>Todos</h2>
+            {/* <TodoForm goals={this.state.goals} submitTodo={this.submitTodo} />
+            <TodoList
+              todos={this.state.todos}
+              activeGoalId={this.state.activeGoal !== null ? this.state.goals[this.state.activeGoal]._id : null}
+              toggle={this.toggleTodo}  /> */}
+          </div>
         </div>
-        <div className="container">
-          <h2>Pairings</h2>
-            <ul>
-              { }
-            </ul>
-          <h2>Goals</h2>
-          {/* <GoalList goals={this.state.goals} setActive={this.toggleActiveGoal} activeGoal={this.state.activeGoal} />
-          <GoalForm submitGoal={this.submitGoal} /> */}
-          <h2>Todos</h2>
-          {/* <TodoForm goals={this.state.goals} submitTodo={this.submitTodo} />
-          <TodoList
-            todos={this.state.todos}
-            activeGoalId={this.state.activeGoal !== null ? this.state.goals[this.state.activeGoal]._id : null}
-            toggle={this.toggleTodo}  /> */}
-        </div>
-      </div>
-    )
+      )
+    } else {
+      return (<div>loading...</div>);
+    }
   }
 }
 
