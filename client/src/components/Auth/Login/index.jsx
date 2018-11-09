@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import '../auth.css';
 
 const BASE_URL = 'http://localhost:8080';
 
@@ -73,7 +74,7 @@ class Login extends Component {
     return(
       <div>
         <h1>Login</h1>
-        <form>
+        <form class="auth__form">
           <input
             name="username"
             type="text"

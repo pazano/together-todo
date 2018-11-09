@@ -4,10 +4,12 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "autoprefixer": "^9.3.1",
     "axios": "^0.17.1",
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.3",
     "crypto": "^1.0.1",
+    "css-loader": "^1.0.1",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.3.0",
     "jsonwebtoken-refresh": "^5.7.0",
@@ -15,11 +17,13 @@
     "moment": "^2.22.2",
     "mongoose": "^5.3.9",
     "morgan": "^1.9.1",
+    "postcss-loader": "^3.0.0",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
     "react-router-dom": "^4.3.1",
     "request": "^2.88.0",
-    "request-promise": "^4.2.2"
+    "request-promise": "^4.2.2",
+    "style-loader": "^0.23.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
@@ -30,7 +34,7 @@
     "nodemon": "^1.18.6",
     "webpack": "^4.25.1",
     "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^2.11.3"
+    "webpack-dev-server": "^3.1.10"
   },
   "scripts": {
     "start-client": "webpack -d --watch",

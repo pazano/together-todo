@@ -1,0 +1,8 @@
+.auth__form {
+  display: flex;
+  flex-flow: column;
+}
+.auth__form > * {
+  flex: 1;
+  margin: 8px;
+}

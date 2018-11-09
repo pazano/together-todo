@@ -4,7 +4,7 @@ const SRC = path.resolve(__dirname, './client/src');
 const DIST = path.resolve(__dirname, './client/dist');
 
 module.exports = {
-  entry: `${SRC}/index.jsx`,
+  entry: ['babel-polyfill', `${SRC}/index.jsx`],
   output: {
     path: DIST,
     filename: 'bundle.js'
@@ -19,7 +19,11 @@ module.exports = {
         options: {
           presets: ['env', 'react']
         }
-      }
+      },
+      {
+        test: /\.(css)$/,
+        loaders: ["style-loader", "css-loader", "postcss-loader"]
+      },
     ]
   }
 }

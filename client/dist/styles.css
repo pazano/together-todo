@@ -7,14 +7,14 @@ body {
 }
 
 h1, h2, h3 {
-  font-family: 'Roboto Slab';
+  font-family: 'Roboto Condensed';
   font-weight: 700;
 }
 h1 {
-  font-size: 36px;
+  font-size: 28px;
 }
 h2 {
-  font-size: 24px;
+  font-size: 20px;
 }
 h3 {
   font-size: 16px;
@@ -22,7 +22,6 @@ h3 {
 
 #app {
   margin: 0 auto;
-  width: 1200px;
   border: solid 1px #ececec;
 }
 
