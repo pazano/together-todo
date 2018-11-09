@@ -46,9 +46,9 @@ api.goals = {
         .catch(err => reject(err));
     })
   },
-  createGoal: (user, name, color) => {
+  createGoal: (relationship, name, color) => {
     return new Promise( (resolve, reject) => {
-      axios.post(`${API_BASE}/goals`, {user: user, name: name, color: color})
+      axios.post(`${API_BASE}/goals`, { relationship, name, color })
         .then(newGoal => resolve(newGoal.data))
         .catch(err => reject(err));
     })

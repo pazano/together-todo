@@ -13,6 +13,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      relationship: null,
       user: 0,
       partner: null,
       goals: [],
@@ -50,6 +51,7 @@ class App extends Component {
           :
           { '_id': data.relationship.userOne._id, 'username': data.relationship.userOne.username };
         this.setState({
+          relationship: data.relationship._id,
           partner,
           goals: data.goals,
           todos: data.todos,
@@ -93,8 +95,7 @@ class App extends Component {
   }
 
   submitTodo(goal, description) {
-    let currentUserId = this.state.allUsers[this.state.currentUser]._id;
-    utils.api.todos.createTodo(currentUserId, goal, description)
+    utils.api.todos.createTodo(this.state.relationship, goal, description)
       .then(newTodo => {
         this.refreshTodos([newTodo, ...this.state.todos])
       })
@@ -114,8 +115,7 @@ class App extends Component {
   }
 
   submitGoal(name, color) {
-    let currentUserId = this.state.allUsers[this.state.currentUser]._id;
-    utils.api.goals.createGoal(currentUserId, name, color)
+    utils.api.goals.createGoal(this.state.relationship, name, color)
       .then(newGoal => {
         this.setState({
           goals: [...this.state.goals, newGoal]
@@ -133,14 +133,14 @@ class App extends Component {
           </div>
           <div className="container">
             <h2>Goals</h2>
-            {/* <GoalList goals={this.state.goals} setActive={this.toggleActiveGoal} activeGoal={this.state.activeGoal} />
-            <GoalForm submitGoal={this.submitGoal} /> */}
+            <GoalList goals={this.state.goals} setActive={this.toggleActiveGoal} activeGoal={this.state.activeGoal} />
+            <GoalForm submitGoal={this.submitGoal} />
             <h2>Todos</h2>
-            {/* <TodoForm goals={this.state.goals} submitTodo={this.submitTodo} />
+            <TodoForm goals={this.state.goals} submitTodo={this.submitTodo} />
             <TodoList
               todos={this.state.todos}
               activeGoalId={this.state.activeGoal !== null ? this.state.goals[this.state.activeGoal]._id : null}
-              toggle={this.toggleTodo}  /> */}
+              toggle={this.toggleTodo}  />
           </div>
         </div>
       )
