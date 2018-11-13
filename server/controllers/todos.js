@@ -9,9 +9,10 @@ module.exports = {
     let { relationship } = req.query;
     Todo
       .find({ relationship })
+      .populate('goal')
+      .populate('assignedTo')
       .sort('complete -created')
       .exec()
-      .then(foundTodos => Goal.populate(foundTodos, {path: 'goal'}))
       .then(todosWithGoals => res.status(200).send(todosWithGoals))
       .catch(err => res.status(400).send(err));
   },

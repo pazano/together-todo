@@ -58,7 +58,7 @@ class App extends Component {
           todos: data.todos,
           visibleTodos: data.todos,
           prepped: true
-        }, () => console.log(this.state));
+        }, () => this.refreshTodos());
       } catch (e) {
         console.log('an error in init')
       }
@@ -75,7 +75,7 @@ class App extends Component {
   setActiveUser(index) {
     console.warn('active user being set to ', index);
     this.setState({
-      visibleUser: index
+      visibleUser: index === '0' ? null : index,
     }, () => this.refreshTodos()); // then refresh todo list
   }
 
@@ -94,7 +94,15 @@ class App extends Component {
     visibleTodos = visibleTodos.filter(todo => {
       // default to true for comparisons that are not necessary to match based on condition
       let compareGoal = this.state.activeGoal ? todo.goal._id === this.state.activeGoal : true;
-      let compareUser = this.state.visibleUser ? todo.assignedTo === this.state.visibleUser : true;
+      // MESSY DEALING WITH NULL HERE
+      let compareUser =
+        this.state.visibleUser ?
+          todo.assignedTo ?
+            todo.assignedTo._id === this.state.visibleUser
+            :
+            false
+          :
+          todo.assignedTo == null;
       return compareGoal && compareUser;
     });
     visibleTodos.sort( (a, b) => {

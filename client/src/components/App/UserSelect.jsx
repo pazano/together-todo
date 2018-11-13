@@ -7,7 +7,7 @@ const UserOption = ({user, value }) => (
 const UserSelect = ({users, activeUser, setActiveUser}) => (
   <div className="userSelect">
     <select onChange={(e) => setActiveUser(e.target.value)}>
-      <option value={null}>Unassigned</option>
+      <option value={0}>Unassigned</option>
       {users.map( (user) => <UserOption user={user} selected={activeUser} key={`user-select-${user._id}`}/>)}
     </select>
   </div>
