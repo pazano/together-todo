@@ -70,9 +70,9 @@ api.todos = {
         .catch(err => reject(err));
     })
   },
-  createTodo: (user, goal, description) => {
+  createTodo: (relationship, user, goal, description) => {
     return new Promise( (resolve, reject) => {
-      axios.post(`${API_BASE}/todos`, {user: user, goal: goal, description: description})
+      axios.post(`${API_BASE}/todos`, {relationship, user, goal, description})
         .then(newTodo => resolve(newTodo.data))
         .catch(err => reject(err));
     })

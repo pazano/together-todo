@@ -15,10 +15,7 @@ const Todo = ({todo, index, toggle}) => {
 }
 
 
-const TodoList = ({todos, activeGoalId, toggle}) => {
-  if (activeGoalId) {
-    todos = todos.filter(todo => todo.goal._id === activeGoalId);
-  }
+const TodoList = ({todos, toggle}) => {
   return(
     <table>
       <tbody>

@@ -1,7 +1,35 @@
+.auth {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-content: center;
+}
+
 .auth__form {
   display: flex;
   flex-flow: column;
+  align-self: center;
 }
+
+.auth__form input {
+  height: 28px;
+  width: 200px;
+}
+
+.auth__form button {
+  height: 40px;
+  border: solid 1px #333;
+  background-color: #eee;
+}
+.auth__form button:hover {
+  cursor: pointer;
+  border: solid 1px #ffcc00;
+  background-color: #fff;
+}
+
 .auth__form > * {
   flex: 1;
   margin: 8px;

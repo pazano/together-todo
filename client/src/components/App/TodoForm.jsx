@@ -5,29 +5,22 @@ class TodoForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedGoal: '',
       todoName: ''
     }
-    this.handleInput = this.handleInput.bind(this);
-    this.handleSelect = this.handleSelect.bind(this);
+    this._handleInputChange = this._handleInputChange.bind(this);
     this.validateSubmission = this.validateSubmission.bind(this);
   }
 
-  handleInput(e) {
+  _handleInputChange(e) {
+    const { value, name } = e.target;
     this.setState({
-      todoName: e.target.value
-    })
-  }
-
-  handleSelect(e) {
-    this.setState({
-      selectedGoal: e.target.value
+      [name]: value
     })
   }
 
   validateSubmission() {
-    if (this.state.todoName.trim() && this.state.selectedGoal.trim()) {
-      this.props.submitTodo(this.state.selectedGoal, this.state.todoName);
+    if (this.state.todoName.trim()) {
+      this.props.submitTodo(this.state.todoName);
       this.setState({
         todoName: ''
       })
@@ -35,16 +28,18 @@ class TodoForm extends Component {
   }
 
   render() {
-    return(
-      <div className="submit__form">
-        <select onChange={this.handleSelect}>
-          <option value=''>Select a goal</option>
-          {this.props.goals.map(goal => <option value={goal._id} key={goal._id}>{goal.name}</option>)}
-        </select>
-        <input className="input__text" type="text" value={this.state.todoName} onChange={this.handleInput}></input>
-        <button className="input__submit" onClick={this.validateSubmission}>+</button>
-      </div>
-    )
+    if (this.props.activeGoal) {
+      return(
+        <div className="submit__form">
+          <input name="todoName" className="input__text" type="text" value={this.state.todoName} onChange={this._handleInputChange}></input>
+          <button className="input__submit" onClick={this.validateSubmission}>+</button>
+        </div>
+      )
+    } else {
+      return(
+        <div></div>
+      )
+    }
   }
 
 }
