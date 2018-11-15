@@ -5,6 +5,7 @@ import GoalSelect from './Header.jsx';
 import UserSelect from './UserSelect.jsx';
 import TodoList from './TodoList.jsx';
 import TodoForm from './TodoForm.jsx';
+import TodoListGroup from './TodoListGroup.jsx';
 
 import utils from '../../utils';
 
@@ -19,7 +20,7 @@ class App extends Component {
       activeGoal: null,
       todos: [],
       visibleTodos: [],
-      visibleUser: null,
+      activeUser: null,
       prepped: false
     }
     this.initialize = this.initialize.bind(this);
@@ -72,10 +73,9 @@ class App extends Component {
     }, () => this.refreshTodos()); // then refresh todo list
   }
 
-  setActiveUser(index) {
-    console.warn('active user being set to ', index);
+  setActiveUser(user) {
     this.setState({
-      visibleUser: index === '0' ? null : index,
+      activeUser: user === 'none' ? null : user._id,
     }, () => this.refreshTodos()); // then refresh todo list
   }
 
@@ -90,22 +90,10 @@ class App extends Component {
   }
 
   refreshTodos(updateTodos = [...this.state.todos]) {
-    let visibleTodos = [...updateTodos];
-    visibleTodos = visibleTodos.filter(todo => {
-      // default to true for comparisons that are not necessary to match based on condition
-      let compareGoal = this.state.activeGoal ? todo.goal._id === this.state.activeGoal : true;
-      // MESSY DEALING WITH NULL HERE
-      let compareUser =
-        this.state.visibleUser ?
-          todo.assignedTo ?
-            todo.assignedTo._id === this.state.visibleUser
-            :
-            false
-          :
-          todo.assignedTo == null;
-      return compareGoal && compareUser;
-    });
-    visibleTodos.sort( (a, b) => {
+    let sortVisible = [...updateTodos];
+    // TODO:  rework this to only filter completed tasks
+    console.log(sortVisible.length)
+    sortVisible.sort( (a, b) => {
       if (a.complete === b.complete) {
         return a.created - b.created;
       } else {
@@ -113,20 +101,27 @@ class App extends Component {
       }
     })
     this.setState({
-      todos: updateTodos,
-      visibleTodos
-    }, () => console.log('todos refreshed'))
+      visibleTodos: sortVisible,
+    }, () => console.log(this.state.todos.length === this.state.visibleTodos.length))
   }
 
   submitTodo(description) {
-    utils.api.todos.createTodo(this.state.relationship, this.state.visibleUser, this.state.activeGoal, description)
+    utils.api.todos.createTodo(this.state.relationship, this.state.activeUser, this.state.activeGoal, description)
       .then(newTodo => {
-        this.refreshTodos([newTodo, ...this.state.todos])
+        console.warn('created new todo');
+        console.log(newTodo);
+        let newTodoList = [...this.state.todos]
+        newTodoList.push(newTodo);
+        this.setState({
+          todos: newTodoList
+        }, () => this.refreshTodos())
       })
       .catch(err => console.warn(err));
   }
 
   toggleTodo(index) {
+    // TODO:  index lookup here won't work across filtered lists
+
     let todo = this.state.todos[index]
     utils.api.todos.toggleComplete(todo._id, !todo.complete)
       .then(updatedTodo => {
@@ -151,17 +146,22 @@ class App extends Component {
   render() {
     if (this.state.prepped) {
       return(
-        <div>
+        <div className="page">
           <div className="header">
-            G: <GoalSelect setActiveGoal={this.setActiveGoal} goals={this.state.goals} />
-            U: <UserSelect setActiveUser={this.setActiveUser} activeUser={this.state.visibleUser} users={[this.state.user, this.state.partner]} />
+            <GoalSelect setActiveGoal={this.setActiveGoal} goals={this.state.goals} />
           </div>
           <div className="container">
-            <h2>Todos</h2>
-            <TodoForm activeGoal={this.state.activeGoal} submitTodo={this.submitTodo} />
-            <TodoList
-              todos={this.state.visibleTodos}
-              toggle={this.toggleTodo}  />
+            <TodoListGroup
+              user={this.state.user}
+              partner={this.state.partner}
+              visibleTodos={this.state.visibleTodos}
+              toggleTodo={this.toggleTodo}
+              activeUser={this.state.activeUser}
+              setActiveUser={this.setActiveUser}
+            />
+          </div>
+          <div className="footer">
+            <TodoForm activeGoal={this.state.activeGoal} activeUser={this.state.user._id} submitTodo={this.submitTodo} />
           </div>
         </div>
       )

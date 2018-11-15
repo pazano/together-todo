@@ -25,19 +25,34 @@ h3 {
   border: solid 1px #ececec;
 }
 
+.page {
+  display: grid;
+  grid-template-rows: 1fr 8fr 1fr;
+  height: 100vh;
+  width: 100vw;
+}
+
 .container {
   padding: 16px;
 }
 
-.header {
-  /* height: 80px; */
-  padding: 16px;
+.header, .footer {
+  padding: 8px;
   background-color: #ececec;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+.header {
   border-bottom: solid 1px #333;
 }
 
 .header > h1 {
   float: left;
+}
+
+.footer {
+  border-top: solid 1px #333;
 }
 
 .goal {
@@ -72,27 +87,6 @@ h3 {
 .goal__score {
   margin-left: 16px;
   text-indent: -999px;
-}
-
-.task {
-  height: 40px;
-  line-height: 40px;
-  padding: 8px 4px;
-}
-
-.task__goal {
-  width: 16px;
-  text-indent: -999px;
-}
-
-.task__description {
-  width: 600px;
-}
-
-.task__complete {
-  font-weight: 300;
-  font-style: italic;
-  color: #888;
 }
 
 .submit__form {

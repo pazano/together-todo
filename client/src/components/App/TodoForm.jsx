@@ -37,7 +37,10 @@ class TodoForm extends Component {
       )
     } else {
       return(
-        <div></div>
+        <div className="submit__form">
+          <input name="todoName" className="input__text disabled" type="text" value={this.state.todoName} onChange={this._handleInputChange}  placeholder="Choose a Goal First"></input>
+          <button className="input__submit">+</button>
+        </div>
       )
     }
   }
