@@ -1,3 +1,4 @@
+const User = require('../db/models/user');
 const Todo = require('../db/models/todo');
 const Goal = require('../db/models/goal');
 const utils = require('../db/utils');
@@ -26,8 +27,9 @@ module.exports = {
     if (user) query.assignedTo = user;
     Todo
       .create(query)
-      .then(newTodo => Goal.populate(newTodo, {path: 'goal'}))
-      .then(todoWithGoal => res.status(200).send(todoWithGoal))
+      .then(newTodo => Goal.populate(newTodo, { path: 'goal'}))
+      .then(todoWithGoal => User.populate(todoWithGoal, { path: 'assignedTo'}))
+      .then(populatedTodo => res.status(200).send(populatedTodo))
       .catch(err => res.status(400).send(err));
   },
   update: (req, res) => {
@@ -40,6 +42,8 @@ module.exports = {
     };
     Todo
       .findByIdAndUpdate(id, updatedValues, {new: true})
+        .populate('goal')
+        .populate('assignedTo')
         .exec()
         .then(updatedTodo => res.status(201).send(updatedTodo))
         .catch(err => res.status(400).send(err));

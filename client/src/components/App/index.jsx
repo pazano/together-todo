@@ -80,7 +80,7 @@ class App extends Component {
   }
 
   refreshGoals() {
-    utils.api.goals.userGoals(currentUserId)
+    utils.api.goals.userGoals(this.state.user._id)
       .then(foundGoals => {
         this.setState({
           goals: foundGoals
@@ -91,8 +91,7 @@ class App extends Component {
 
   refreshTodos(updateTodos = [...this.state.todos]) {
     let sortVisible = [...updateTodos];
-    // TODO:  rework this to only filter completed tasks
-    console.log(sortVisible.length)
+    // TODO:  rework this to only filter completed tasks based on UI setting
     sortVisible.sort( (a, b) => {
       if (a.complete === b.complete) {
         return a.created - b.created;
@@ -119,14 +118,13 @@ class App extends Component {
       .catch(err => console.warn(err));
   }
 
-  toggleTodo(index) {
-    // TODO:  index lookup here won't work across filtered lists
-
-    let todo = this.state.todos[index]
-    utils.api.todos.toggleComplete(todo._id, !todo.complete)
+  toggleTodo(id) {
+    let todo = this.state.todos.find(todo => todo._id === id);
+    utils.api.todos.toggleComplete(id, !todo.complete)
       .then(updatedTodo => {
         let updatedList = [...this.state.todos];
-        updatedList[index] = updatedTodo;
+        let replaceMe = updatedList.find(todo => todo._id === id);
+        replaceMe = updatedTodo;
         this.refreshTodos(updatedList);
         this.refreshGoals();
       })
@@ -156,6 +154,7 @@ class App extends Component {
               partner={this.state.partner}
               visibleTodos={this.state.visibleTodos}
               toggleTodo={this.toggleTodo}
+              localUser={this.state.user}
               activeUser={this.state.activeUser}
               setActiveUser={this.setActiveUser}
             />
